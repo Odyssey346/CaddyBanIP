@@ -1,0 +1,15 @@
+{
+    order caddybanip before file_server
+}
+
+:80 {
+    respond / "Hello World" 200
+
+    # Note that there's something weird with banned paths like this I think? For example, if you do handle_path /banned/*, and visit /banned/whatever, it'll show you tried to access /whatever in the logs. I'm not sure how to fix that, so you'll have to deal with it for now.
+    handle_path /banned/* {
+        caddybanip {
+            banned_ips "127.0.0.1|192.168.10.164" # IPs you do not want to visit this path. Note: Regex
+            message "You are banned from visiting this website!" # Optional, but recommended if you think the default message is an advertisement or something.
+        }
+    }
+}
