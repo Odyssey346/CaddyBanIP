@@ -51,7 +51,6 @@ func (c *CaddyBanIP) Validate() error {
 }
 
 func (c CaddyBanIP) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
-	fmt.Println("lol")
 	match, _ := regexp.MatchString(c.BannedIPs, r.RemoteAddr)
 	if match {
 		if c.Message == "" {
